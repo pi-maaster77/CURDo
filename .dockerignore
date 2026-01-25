@@ -1,0 +1,10 @@
+.env
+prueba.db
+prueba.sql
+__pycache__/
+*.pyc
+.venv/
+.vscode/
+ejemplos/
+.gitignore
+.git
