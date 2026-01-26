@@ -26,7 +26,7 @@ services:
     depends_on:
       - postgres
     environment:
-      - DATABASE_URL=postgresql://curdo:dc9a8d76ab42925816f0c1b3f44bbfdb3cc77c23817faa8cd6923ce9e84ac1e7@postgres:5432/curdo
+      - DATABASE_URL=postgresql://curdo:b2cc05e9c3825df2f1fcf3991cdb4ffc0d40704ebf83aec6b7ade8a98760088e@postgres:5432/curdo
     networks:
       - nginx
   pgadmin:
@@ -38,5 +38,11 @@ services:
       PGADMIN_DEFAULT_EMAIL: pi@a.com
       PGADMIN_DEFAULT_PASSWORD: 1512
       PGADMIN_LISTEN_PORT: 80
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
     networks:
       - nginx
+
+volumes:
+  pgadmin_data:
+  
