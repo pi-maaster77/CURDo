@@ -1,0 +1,42 @@
+networks:
+  nginx:
+    driver: bridge
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro,z
+    networks:
+      - nginx
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      - POSTGRES_PASSWORD=1512
+    networks:
+      - nginx
+  curdo:
+    image: curdo-app
+    container_name: curdo
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql://curdo:dc9a8d76ab42925816f0c1b3f44bbfdb3cc77c23817faa8cd6923ce9e84ac1e7@postgres:5432/curdo
+    networks:
+      - nginx
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    depends_on:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pi@a.com
+      PGADMIN_DEFAULT_PASSWORD: 1512
+      PGADMIN_LISTEN_PORT: 80
+    networks:
+      - nginx
