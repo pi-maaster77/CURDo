@@ -1,6 +1,7 @@
 
 import { defineStore } from 'pinia'
-import { fetchElementos, createElemento, updateElemento, deleteElemento, asociarTagAElemento, desasociarTagDeElemento } from '@/api/elementos'
+import { fetchElementos, createElemento, updateElemento, deleteElemento } from '@/api/elementos'
+import { asociarTagAElemento, desasociarTagDeElemento } from '@/api/elementoTags'
 export const useElementosStore = defineStore('elementos', {
   state: () => ({
     elementos: [],
@@ -24,10 +25,26 @@ export const useElementosStore = defineStore('elementos', {
       }
     },
 
-    async cargar() {
-      this.elementos = await fetchElementos()
+    async cargar(filtros = {}) {
+      // Mapear los filtros del front (tags, tagMode, checked)
+      // al formato que espera la API (tag, tag_mode, checked)
+      const params = {}
+
+      if (filtros.tags && Array.isArray(filtros.tags) && filtros.tags.length > 0) {
+        params.tag = filtros.tags
+      }
+
+      if (filtros.tagMode) {
+        params.tag_mode = filtros.tagMode
+      }
+
+      if (filtros.checked !== undefined) {
+        params.checked = filtros.checked
+      }
+
+      this.elementos = await fetchElementos(params)
     },
-    async crear({ nombre }) {
+    async crear(nombre) {
       const temp = {
         id: crypto.randomUUID(),
         nombre,
@@ -39,7 +56,8 @@ export const useElementosStore = defineStore('elementos', {
           this.elementos.push(temp)
         },
         async () => {
-          const real = await createElemento(nombre)
+          console.log(nombre)
+          const real = await createElemento({nombre})
           const idx = this.elementos.findIndex(e => e.id === temp.id)
           if (idx !== -1) this.elementos[idx] = real
         }
@@ -63,7 +81,7 @@ export const useElementosStore = defineStore('elementos', {
           const i = this.elementos.findIndex(e => e.id === id)
           if (i !== -1) this.elementos[i].checked = checked
         },
-        () => updateElemento(id, { id, checked })
+        () => updateElemento( id, {checked} )
       )
     },
     async eliminar(id) {
@@ -80,8 +98,8 @@ export const useElementosStore = defineStore('elementos', {
 
       const tagsActuales = elemento.tags ?? []
 
-      const aAgregar = nuevasTags.filter(id => !tagsActuales.includes(id))
-      const aQuitar  = tagsActuales.filter(id => !nuevasTags.includes(id))
+      const aAgregar = nuevasTags.filter(id => !tagsActuales?.includes(id))
+      const aQuitar  = tagsActuales.filter(id => !nuevasTags?.includes(id))
 
       // optimistic update
       elemento.tags = nuevasTags

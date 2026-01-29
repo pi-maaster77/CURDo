@@ -1,12 +1,25 @@
 import axios from 'axios';
 
 const baseUrl = `${process.env.VUE_APP_API_URL || 'http://localhost:8000'}/api/elementos`
-const baseUrlAsociar = `${process.env.VUE_APP_API_URL || 'http://localhost:8000'}/api/asociar`
 
-export const fetchElementos = async (params = {}) =>
-  (await axios.get(baseUrl, { params })).data
+export const fetchElementos = async (params = {}) => {
+  // Build query string so arrays are sent as repeated keys: tag=1&tag=2
+  const search = new URLSearchParams()
 
-export const createElemento = async (nombre) =>
+  Object.entries(params || {}).forEach(([k, v]) => {
+    if (v === undefined || v === null) return
+    if (Array.isArray(v)) {
+      v.forEach(val => search.append(k, val))
+    } else {
+      search.append(k, String(v))
+    }
+  })
+
+  const url = search.toString() ? `${baseUrl}?${search.toString()}` : baseUrl
+  return (await axios.get(url)).data
+}
+
+export const createElemento = async ({ nombre }) =>
   (await axios.post(baseUrl, { nombre })).data
 
 export const updateElemento = async (id, data) =>
@@ -14,9 +27,3 @@ export const updateElemento = async (id, data) =>
 
 export const deleteElemento = async (id) =>
   (await axios.delete(`${baseUrl}/${id}`)).data
-
-export const asociarTagAElemento = async (elementoId, tagId) =>
-  (await axios.post(`${baseUrlAsociar}/elementos/${elementoId}/tags/${tagId}`)).data
-
-export const desasociarTagDeElemento = async (elementoId, tagId) =>
-  (await axios.delete(`${baseUrlAsociar}/elementos/${elementoId}/tags/${tagId}`)).data
