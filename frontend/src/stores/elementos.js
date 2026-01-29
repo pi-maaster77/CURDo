@@ -21,7 +21,7 @@ export const useElementosStore = defineStore('elementos', {
         await request()
       } catch (e) {
         this.elementos = backup
-        throw e
+        console.error(e)
       }
     },
 

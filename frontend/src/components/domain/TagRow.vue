@@ -15,8 +15,8 @@
         <BotonEliminar @click="eliminar()"/>
       </span>
       <span v-else>
-        <button @click="guardarEdicion()">💾</button>
-        <button @click="cancelarEditar()">✖</button>
+        <BotonGuardar @click="guardarEdicion()"/>
+        <BotonCerrar @click="cancelarEditar()"/>
       </span>
     </td>
     <td>
@@ -37,6 +37,8 @@ import { ref, defineProps, defineEmits, computed } from 'vue'
 import BotonEditar from '../ui/BotonEditar.vue';
 import BotonEliminar from '../ui/BotonEliminar.vue';
 import TagColorSelector from './TagColorSelector.vue';
+import BotonGuardar from '../ui/BotonGuardar.vue';
+import BotonCerrar from '../ui/BotonCerrar.vue';
 
 
 const props = defineProps({

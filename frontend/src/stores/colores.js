@@ -21,7 +21,7 @@ export const useColorsStore = defineStore('colores', {
         await request()
       } catch (e) {
         this.colores = backup
-        throw e
+        console.error(e)
       }
     },
 

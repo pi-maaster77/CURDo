@@ -5,6 +5,7 @@
 
       <!-- Lista de colores -->
       <div class="colores">
+        <BotonCerrar @click="emit('cerrar')" />
         <div
           v-for="c in colores"
           :key="c.id"
@@ -32,14 +33,8 @@
 
         <input type="color" v-model="hex" />
 
-        <button @click="crearColor">
-          ➕ Crear
-        </button>
+        <BotonCrear @click="crearColor"/>
       </div>
-
-      <button class="cerrar" @click="emit('cerrar')">
-        Cerrar
-      </button>
     </div>
   </div>
 </template>
@@ -47,6 +42,8 @@
 <script setup>
 import { ref, defineEmits, defineProps } from 'vue'
 import BotonEliminar from '../ui/BotonEliminar.vue'
+import BotonCrear from '../ui/BotonCrear.vue'
+import BotonCerrar from '../ui/BotonCerrar.vue'
 
 defineProps({
   colores: Array,
@@ -85,3 +82,9 @@ function crearColor() {
 }
 </script>
 
+<style>
+.picker-overlay{
+  position: absolute;
+  color: blue;
+}
+</style>

@@ -22,8 +22,8 @@
         <BotonEliminar @click="eliminar()"/>
       </span>
       <span v-else>
-        <button @click="guardarEdicion()">💾</button>
-        <button @click="cancelarEditar()">✖</button>
+        <BotonGuardar @click="guardarEdicion()"/>
+        <BotonCerrar @click="cancelarEditar()"/>
       </span>
     </td>
     <td>
@@ -44,6 +44,8 @@ import BotonEliminar from '../ui/BotonEliminar.vue';
 import CheckBoxGeneral from '../ui/CheckBoxGeneral.vue';
 import ElementoTagsHover from '../ui/ElementoTagsHover.vue';
 import { useTagsStore } from '@/stores/tags';
+import BotonCerrar from '../ui/BotonCerrar.vue';
+import BotonGuardar from '../ui/BotonGuardar.vue';
 
 
 const props = defineProps({

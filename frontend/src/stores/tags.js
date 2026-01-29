@@ -21,7 +21,7 @@ export const useTagsStore = defineStore('tags', {
         await request()
       } catch (e) {
         this.tags = backup
-        throw e
+        console.error(e)
       }
     },
 

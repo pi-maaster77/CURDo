@@ -2,8 +2,5 @@
     <input type="text">
 </template>
 
-<script>
-    export default {
-        name: "EntradaTexto"
-    }
+<script setup>
 </script>
