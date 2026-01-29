@@ -1,0 +1,92 @@
+<template>
+  <tr>
+    <td>
+      <template v-if="meEditan">
+        <input v-model="nombre" />
+      </template>
+      <template v-else>
+        {{ tag.nombre }}
+      </template>
+    </td>
+
+    <td>
+      <span v-if="!meEditan">
+        <BotonEditar @click="empezarEditar()"/>
+        <BotonEliminar @click="eliminar()"/>
+      </span>
+      <span v-else>
+        <button @click="guardarEdicion()">💾</button>
+        <button @click="cancelarEditar()">✖</button>
+      </span>
+    </td>
+    <td>
+      <TagColorSelector
+        :tag="tag"
+        :meColorean="meColorean"
+        @change="guardar"
+        @colorear="colorear"
+        @cerrar="cerrar"
+      />
+
+    </td>
+  </tr>
+</template>
+
+<script setup>
+import { ref, defineProps, defineEmits, computed } from 'vue'
+import BotonEditar from '../ui/BotonEditar.vue';
+import BotonEliminar from '../ui/BotonEliminar.vue';
+import TagColorSelector from './TagColorSelector.vue';
+
+
+const props = defineProps({
+  tag: Object,
+  editandoId: String,
+  coloreandoId: Number
+})
+
+
+console.log("tag: ", props.tag)
+
+const emit = defineEmits(['editando', 'guardar', 'eliminar', 'etiquetando', 'toggle-checked', 'coloreando', 'colorear'])
+
+const nombre = ref(props.tag?.nombre || '')
+const meEditan = computed(
+  () => props.tag && props.editandoId === props.tag.id
+)
+const meColorean = computed(
+  () => props.coloreandoId === props.tag?.id
+)
+
+function empezarEditar() {
+  if (!props.tag) return
+  nombre.value = props.tag.nombre
+  emit('editando', props.tag.id)
+}
+
+function cancelarEditar() {
+  emit('editando', null)
+}
+
+function guardarEdicion() {
+  emit('guardar', {
+    id: props.tag.id,
+    nombre: nombre.value
+  })
+}
+
+function eliminar() {
+  emit('eliminar', props.tag.id)
+  console.log(props.tag.id)
+}
+
+function colorear(){
+  emit('coloreando', props.tag.id)
+  console.log('coloreando', props.tag.id)
+}
+
+function cerrar(){
+  emit('coloreando', null)
+}
+
+</script>

@@ -10,6 +10,7 @@ Base = declarative_base()
 from .models.elemento import Elemento
 from .models.tag import Tag
 from .models.tag_elemento import tag_elemento
+from .models.color import Color
 
 # Crear todas las tablas
 Base.metadata.create_all(engine)

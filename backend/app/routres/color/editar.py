@@ -6,44 +6,37 @@ from ...database import engine
 from ...models import Tag
 
 class TagEditRequest(BaseModel):
-    nombre: Optional[str] = None
-    color: Optional[int] = None
+    nombre: str
 
 router = APIRouter()
 
 @router.patch("/{id}")
-async def editar_tags(id, tag: TagEditRequest):
-    if not tag.nombre and not tag.color:
-        raise HTTPException(
+async def editar_colors(id, color: TagEditRequest):
+    if not color.nombre:
+        return HTTPException(
             status_code=400,
             detail="Debe enviarse al menos un campo"
         )
     with Session(engine) as session:
-        tag_db = session.get(Tag, id)
-        if tag_db is None:
+        color_db = session.get(Tag, color.id)
+        if color_db is None:
             raise HTTPException(
                 status_code=404,
                 detail="Tag no encontrada"
             )
 
-
-        if tag.nombre is not None:
-            tag_db.nombre = tag.nombre
-
-        if tag.color is not None:
-            tag_db.color_id = tag.color
+        color_db.nombre = color.nombre
 
         try:
             session.commit()
-            session.refresh(tag_db)
+            session.refresh(color_db)
             return {
                 "message": "Tag editado correctamente",
-                "id": tag_db.id,
-                "nombre": tag_db.nombre,
+                "id": color_db.id, 
+                "nombre": color_db.nombre,
                 "color": {
-                    "rojo": tag_db.color.rojo,
-                    "verde": tag_db.color.verde,
-                    "azul": tag_db.color.azul,
+                    "nombre": color_db.color.nombre,
+                    "id": color_db.color.id
                 }
             }
     

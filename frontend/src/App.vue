@@ -1,16 +1,7 @@
 <template>
-  <div id="app">
-    <TablaPrincipal />
-  </div>
+  <IndexPage />
 </template>
 
-<script>
-import TablaPrincipal from './components/TablaPrincipal.vue';
-
-export default {
-  name: 'App',
-  components: {
-    TablaPrincipal
-  }
-}
+<script setup>
+import IndexPage from './views/IndexPage.vue';
 </script>

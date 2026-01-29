@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routres.elementos.router import router as elementos_router
 from app.routres.tags.router import router as tags_router
+from app.routres.asociar.router import router as asociar_router
+from app.routres.color.router import router as color_router
 
 app = FastAPI(
     title="CURDo API",
@@ -22,3 +24,5 @@ app.add_middleware(
 
 app.include_router(elementos_router, prefix="/api/elementos")
 app.include_router(tags_router, prefix="/api/tags")  # Added router for tags
+app.include_router(color_router, prefix="/api/colores")
+app.include_router(asociar_router, prefix="/api/asociar")  # Added router for asociar

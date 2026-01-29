@@ -6,14 +6,13 @@ from ...database import engine
 from ...models import Elemento
 
 class ElementoEditRequest(BaseModel):
-    id: int
     nombre: Optional[str] = None
     checked: Optional[bool] = None
 
 router = APIRouter()
 
-@router.patch("/editar")
-def editar_elementos(elemento: ElementoEditRequest):
+@router.patch("/{id}")
+def editar_elementos(id, elemento: ElementoEditRequest):
 
     if elemento.nombre is None and elemento.checked is None:
         raise HTTPException(
@@ -22,7 +21,7 @@ def editar_elementos(elemento: ElementoEditRequest):
         )
 
     with Session(engine) as session:
-        elemento_db = session.get(Elemento, elemento.id)
+        elemento_db = session.get(Elemento, id)
 
         if elemento_db is None:
             raise HTTPException(

@@ -5,8 +5,7 @@ from ...models import Elemento
 
 router = APIRouter()
 
-@router.delete("/eliminar")
-
+@router.delete("/{id}")
 async def eliminar_elementos(id:int):
     with Session(engine) as session:
         elemento = session.query(Elemento).filter(Elemento.id == id).first()
