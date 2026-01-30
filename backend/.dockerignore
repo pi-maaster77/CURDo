@@ -8,3 +8,4 @@ __pycache__/
 ejemplos/
 .gitignore
 .git
+*.db

@@ -2,13 +2,13 @@
 
 import axios from 'axios';
 
-const baseUrl = `${process.env.VUE_APP_API_URL || 'http://localhost:8000'}/api/tags`
+const baseUrl = `/api/tags`
 
 export const fetchTags = async () =>
-  (await axios.get(baseUrl)).data
+  (await axios.get(`${baseUrl}/`)).data
 
 export const createTag = async ({ nombre, color_id }) =>
-  (await axios.post(baseUrl, { nombre, color: color_id })).data
+  (await axios.post(`${baseUrl}/`, { nombre, color: color_id })).data
 
 export const updateTag = async ({ id, nombre, color_id }) =>
   (await axios.patch(`${baseUrl}/${id}`, { nombre, color: color_id })).data

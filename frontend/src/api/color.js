@@ -2,13 +2,13 @@
 
 import axios from 'axios'
 
-const baseUrl = `${process.env.VUE_APP_API_URL || 'http://localhost:8000'}/api/colores`
+const baseUrl = `/api/colores`
 
 export const fetchColors = async () =>
-  (await axios.get(baseUrl)).data
+  (await axios.get(`${baseUrl}/`)).data
 
 export const createColor = async (nombre, rojo, verde, azul) =>
-  (await axios.post(baseUrl, { nombre, rojo, verde, azul })).data
+  (await axios.post(`${baseUrl}/`, { nombre, rojo, verde, azul })).data
 
 export const updateColor = async (id, nombre) =>
   (await axios.patch(`${baseUrl}/${id}`, { nombre })).data

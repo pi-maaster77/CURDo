@@ -1,6 +1,4 @@
-networks:
-  nginx:
-    driver: bridge
+version: "3.9"
 
 services:
   nginx:
@@ -8,41 +6,61 @@ services:
     container_name: nginx
     ports:
       - "80:80"
+      - "443:443"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro,z
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro,z
+      - ./nginx/certs:/etc/nginx/certs:ro,z
+    depends_on:
+      - curdo
+      - pgadmin
     networks:
-      - nginx
+      - curdo_net
+
+  curdo:
+    build:
+      context: ../backend
+    container_name: curdo
+    environment:
+      DATABASE_URL: postgresql://curdo:curdo@postgres:5432/curdo
+      CLIENT_URL: https://curdo.local
+    depends_on:
+      - postgres
+    networks:
+      - curdo_net
+
+  frontend:
+    build:
+      context: ../frontend
+    container_name: frontend
+    networks:
+      - curdo_net
 
   postgres:
     image: postgres
     container_name: postgres
     environment:
-      - POSTGRES_PASSWORD=1512
+      POSTGRES_DB: curdo
+      POSTGRES_USER: curdo
+      POSTGRES_PASSWORD: curdo
+    volumes:
+      - postgres_data:/var/lib/postgresql/18/main
     networks:
-      - nginx
-  curdo:
-    image: curdo-app
-    container_name: curdo
-    depends_on:
-      - postgres
-    environment:
-      - DATABASE_URL=postgresql://curdo:b2cc05e9c3825df2f1fcf3991cdb4ffc0d40704ebf83aec6b7ade8a98760088e@postgres:5432/curdo
-    networks:
-      - nginx
+      - curdo_net
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@curdo.com
+      PGADMIN_DEFAULT_PASSWORD: admin
     depends_on:
       - postgres
-    environment:
-      PGADMIN_DEFAULT_EMAIL: pi@a.com
-      PGADMIN_DEFAULT_PASSWORD: 1512
-      PGADMIN_LISTEN_PORT: 80
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
     networks:
-      - nginx
+      - curdo_net
 
 volumes:
-  pgadmin_data:
-  
+  postgres_data:
+
+networks:
+  curdo_net:
+    driver: bridge

@@ -2,7 +2,7 @@
   <tr>
     <td>
       <template v-if="meEditan">
-        <input v-model="nombre" />
+        <EntradaTexto v-model="nombre" />
       </template>
       <template v-else>
         {{ tag.nombre }}
@@ -39,6 +39,7 @@ import BotonEliminar from '../ui/BotonEliminar.vue';
 import TagColorSelector from './TagColorSelector.vue';
 import BotonGuardar from '../ui/BotonGuardar.vue';
 import BotonCerrar from '../ui/BotonCerrar.vue';
+import EntradaTexto from '../ui/EntradaTexto.vue';
 
 
 const props = defineProps({

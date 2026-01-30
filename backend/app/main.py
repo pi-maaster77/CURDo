@@ -5,6 +5,8 @@ from app.routres.elementos.router import router as elementos_router
 from app.routres.tags.router import router as tags_router
 from app.routres.asociar.router import router as asociar_router
 from app.routres.color.router import router as color_router
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware # Opcional
 
 try:
     import dotenv

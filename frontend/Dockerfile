@@ -1,13 +1,13 @@
-FROM python:3.11-slim
-
+# build
+FROM node:20-alpine AS build
 WORKDIR /app
 
-# Copiar requirements e instalar dependencias
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY package*.json ./
+RUN npm ci
 
-# Copiar la aplicación
 COPY . .
+RUN npm run build
 
-# Comando para ejecutar la app
-CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:8000", "main:app"]
+# serve
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html

@@ -1,13 +1,12 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 WORKDIR /app
 
-# Copiar requirements e instalar dependencias
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar la aplicación
-COPY . .
+COPY app ./app
 
-# Comando para ejecutar la app
-CMD ["gunicorn", "-w", "2", "-b", "0.0.0.0:8000", "main:app"]
+ENV PYTHONUNBUFFERED=1
+
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "app.main:app", "-b", "0.0.0.0:8000"]
