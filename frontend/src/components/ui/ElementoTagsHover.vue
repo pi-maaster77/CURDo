@@ -8,6 +8,7 @@
       <TagEnLinea
         v-if="visibles.length < 1"
         :tag="placeholder"
+        :placeholder="true"
       />
       <TagEnLinea
         v-for="tag in visibles"
@@ -35,7 +36,7 @@ import TagSelector from './TagSelector.vue'
 
 const placeholder = {
   id:-1, 
-  nombre: "Agregar Tags 🏷️",
+  nombre: "Agregar Tags",
   color: {
     rojo: 127,
     verde: 127,

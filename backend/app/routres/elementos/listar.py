@@ -8,7 +8,7 @@ router = APIRouter()
 @router.get("/")
 def listar_elementos(
     tag: list[int] | None = Query(None),
-    tag_mode: str = Query("any", regex="^(any|all)$"),
+    tag_mode: str = Query("any", pattern="^(any|all)$"),
     checked: bool | None = None
 ):
     with Session(engine) as session:

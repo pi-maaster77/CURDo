@@ -48,6 +48,7 @@ export const useElementosStore = defineStore('elementos', {
       const temp = {
         id: crypto.randomUUID(),
         nombre,
+        checked: false,
         _optimistic: true
       }
 

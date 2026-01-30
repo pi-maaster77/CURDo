@@ -43,6 +43,7 @@ export const useTagsStore = defineStore('tags', {
             id: cid,
             nombre,
             color: {
+              id:1,
               rojo: 0,
               verde: 0,
               azul: 0

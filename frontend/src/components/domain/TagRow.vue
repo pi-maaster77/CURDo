@@ -10,11 +10,11 @@
     </td>
 
     <td>
-      <span v-if="!meEditan">
+      <span class="btn-group" v-if="!meEditan">
         <BotonEditar @click="empezarEditar()"/>
         <BotonEliminar @click="eliminar()"/>
       </span>
-      <span v-else>
+      <span class="btn-group" v-else>
         <BotonGuardar @click="guardarEdicion()"/>
         <BotonCerrar @click="cancelarEditar()"/>
       </span>

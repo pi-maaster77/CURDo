@@ -17,7 +17,7 @@ class Tag(Base):
         back_populates="tags"
     )
 
-    color_id = Column(Integer, ForeignKey("color.id"))
+    color_id = Column(Integer, ForeignKey("color.id"), default=1)
 
     # 2. Creamos la conexión a nivel objeto Python
     color = relationship("Color", back_populates="tags")

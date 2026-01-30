@@ -1,28 +1,31 @@
 <template>
-  <div class="buscador">
-    <div class="controles">
-      <label>
-        <input type="checkbox" v-model="checkedOnly" />
-        Solo checkeados
-      </label>
-
-      <select v-model="tagMode">
-        <option value="any">Cualquiera</option>
-        <option value="all">Todos</option>
-      </select>
-    </div>
-    <button @click="limpiar">limpiar</button>
-    <ElementoTagsHover
-      :all-tags="tags"
-      :selected-ids="selectedTags"
-      @update="onTagsUpdate"
-    />
-  </div>
+  <tr class="buscador">
+      <td>
+        <CheckBoxGeneral v-model="checkedOnly" id="filterChecked" />
+      </td>
+      <td>
+        <select v-model="tagMode">
+          <option value="any">Cualquiera</option>
+          <option value="all">Todos</option>
+        </select>
+      </td>
+      <td>
+        <button @click="limpiar" class="btn btn-secondary">limpiar</button>
+      </td>
+      <td>
+        <ElementoTagsHover
+          :all-tags="tags"
+          :selected-ids="selectedTags"
+          @update="onTagsUpdate"
+        />
+      </td>
+  </tr>
 </template>
 
 <script setup>
 import { ref, watch, defineProps, defineEmits} from 'vue'
 import ElementoTagsHover from '../ui/ElementoTagsHover.vue'
+import CheckBoxGeneral from '../ui/CheckBoxGeneral.vue'
 
 defineProps({
   tags: { type: Array, default: () => [] }
@@ -31,7 +34,7 @@ defineProps({
 const emit = defineEmits(['change'])
 
 const selectedTags = ref([])
-const checkedOnly = ref(false)
+const checkedOnly = ref(null)
 const tagMode = ref('any')
 
 // Función para manejar el update de tags
@@ -54,7 +57,7 @@ watch(
 )
 function limpiar() {
     selectedTags.value = []
-    checkedOnly.value = false
+    checkedOnly.value = null
     tagMode.value = 'any'
 }
 

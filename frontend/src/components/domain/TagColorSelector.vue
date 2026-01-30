@@ -1,5 +1,5 @@
 <template>
-  <div class="color-wrapper">
+  <div class="position-relative d-inline-block">
     <BotonColor
       :color="tag.color"
       @click="colorear"

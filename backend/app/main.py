@@ -1,10 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from os import environ
 from app.routres.elementos.router import router as elementos_router
 from app.routres.tags.router import router as tags_router
 from app.routres.asociar.router import router as asociar_router
 from app.routres.color.router import router as color_router
+
+try:
+    import dotenv
+    dotenv.load_dotenv()
+except ModuleNotFoundError:
+    pass
+
 
 app = FastAPI(
     title="CURDo API",
@@ -12,7 +19,9 @@ app = FastAPI(
 )
 
 origins = [
-"http://localhost:8080",]
+"http://localhost:8080"
+
+]
 
 app.add_middleware(
     CORSMiddleware,

@@ -9,7 +9,7 @@
     </td>
     <td>
       <template v-if="meEditan">
-        <input v-model="nombre" />
+        <EntradaTexto type="text" v-model="nombre" />
       </template>
       <template v-else>
         {{ elemento.nombre }}
@@ -17,11 +17,11 @@
     </td>
 
     <td>
-      <span v-if="!meEditan">
+      <span class="btn-group" v-if="!meEditan">
         <BotonEditar @click="empezarEditar()"/>
         <BotonEliminar @click="eliminar()"/>
       </span>
-      <span v-else>
+      <span class="btn-group" v-else>
         <BotonGuardar @click="guardarEdicion()"/>
         <BotonCerrar @click="cancelarEditar()"/>
       </span>
@@ -32,7 +32,6 @@
         :selected-ids="elemento.tags"
           @update="ids => emitirEtiquetado(ids)"
       />
-      <span v-if="hayMasTags">...</span>
     </td>
   </tr>
 </template>
@@ -46,7 +45,7 @@ import ElementoTagsHover from '../ui/ElementoTagsHover.vue';
 import { useTagsStore } from '@/stores/tags';
 import BotonCerrar from '../ui/BotonCerrar.vue';
 import BotonGuardar from '../ui/BotonGuardar.vue';
-
+import EntradaTexto from '../ui/EntradaTexto.vue';
 
 const props = defineProps({
   elemento:{
@@ -67,10 +66,6 @@ const nombre = ref(props.elemento.nombre)
 const meEditan = computed(
   () => props.editandoId===props.elemento.id
 )
-
-const hayMasTags = computed(() => {
-  return props.elemento.tags && props.elemento.tags.length > 2
-})
 
 function empezarEditar() {
   nombre.value = props.elemento.nombre

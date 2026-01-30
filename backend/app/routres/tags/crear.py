@@ -22,6 +22,8 @@ async def crear_tags(tag: TagsCreateRequest):
                 "nombre": nueva_tag.nombre, 
                 "id": nueva_tag.id,
                 "color": {
+                    "id": nueva_tag.color.id,
+                    "nombre": nueva_tag.color.nombre, 
                     "rojo": nueva_tag.color.rojo,
                     "verde": nueva_tag.color.verde,
                     "azul": nueva_tag.color.azul,

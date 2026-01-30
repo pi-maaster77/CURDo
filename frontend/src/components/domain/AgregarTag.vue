@@ -1,10 +1,11 @@
 <template>
   <tr>
     <td>
-        <input v-model="nombre" />
+        <EntradaTexto v-model="nombre" />
     </td>
-        <BotonCrear @click="crear"/>
-    <td>    
+        
+    <td>  
+        <BotonCrear @click="crear"/>  
     </td>
   </tr>
 </template>
@@ -12,6 +13,7 @@
 <script setup>
 import { ref, defineEmits} from 'vue'
 import BotonCrear from '../ui/BotonCrear.vue';
+import EntradaTexto from '../ui/EntradaTexto.vue';
 
 const emit = defineEmits(['crear'])
 

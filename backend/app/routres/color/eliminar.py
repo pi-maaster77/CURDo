@@ -23,6 +23,8 @@ async def eliminar_color(id: int):
                 "No se puede eliminar el color: está en uso por uno o más tags"
             )
 
+        if color.id == 1:
+            raise HTTPException(status_code=400, detail="No se puede eliminar el color por defecto.")
         session.delete(color)
         session.commit()
 

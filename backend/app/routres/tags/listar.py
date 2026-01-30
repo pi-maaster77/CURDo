@@ -21,4 +21,6 @@ async def listar_tags():
                     "azul": tag.color.azul,
                 }
             })
+            
+                
         return resultado

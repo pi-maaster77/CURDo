@@ -4,16 +4,13 @@
       <CheckBoxGeneral disabled/>
     </td>
     <td>
-        <input type="text" v-model="nombre">
+        <EntradaTexto v-model="nombre"/>
     </td>
 
     <td>
       <span >
         <BotonCrear @click="crear()"/>
       </span>
-    </td>
-    <td>
-        -
     </td>
     <td>
         -
@@ -25,6 +22,7 @@
 import { defineEmits, ref } from 'vue'
 import CheckBoxGeneral from '../ui/CheckBoxGeneral.vue';
 import BotonCrear from '../ui/BotonCrear.vue';
+import EntradaTexto from '../ui/EntradaTexto.vue';
 
 const emit = defineEmits(['crear'])
 

@@ -41,9 +41,11 @@ async def editar_tags(id, tag: TagEditRequest):
                 "id": tag_db.id,
                 "nombre": tag_db.nombre,
                 "color": {
-                    "rojo": tag_db.color.rojo,
-                    "verde": tag_db.color.verde,
-                    "azul": tag_db.color.azul,
+                    "id":tag_db.color.id,
+                    "nombre":tag_db.color.nombre, 
+                    "rojo":tag_db.color.rojo,
+                    "verde":tag_db.color.verde,
+                    "azul":tag_db.color.azul,
                 }
             }
     

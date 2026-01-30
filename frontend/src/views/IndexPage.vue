@@ -1,20 +1,21 @@
 <template>
-  <BuscadorTags
-    :tags="tagsStore.tags"
-    @change="aplicarFiltros"
-  />
 
-  <table>
+
+  <table class="table table-striped table-hover">
     <thead>
       <tr>
-        <th>✔</th>
+        <th></th>
         <th>Nombre</th>
         <th>Tags</th>
         <th>Acciones</th>
       </tr>
+        <BuscadorTags
+          :tags="tagsStore.tags"
+          @change="aplicarFiltros"
+        />
     </thead>
 
-    <tbody>
+    <tbody >
       <ElementoRow
         v-for="el in elementosStore.elementos"
         :key="el.id"
@@ -29,8 +30,6 @@
       <AgregarElemento @crear="crear" />
     </tbody>
   </table>
-  
-  <EditorTags />
 </template>
 
 <script setup>
@@ -42,7 +41,6 @@ import { useTagsStore } from '@/stores/tags'
 import ElementoRow from '@/components/domain/ElementoRow.vue'
 import BuscadorTags from '@/components/domain/BuscadorTags.vue'
 import AgregarElemento from '@/components/domain/AgregarElemento.vue'
-import EditorTags from './EditorTags.vue'
 
 const elementosStore = useElementosStore()
 const tagsStore = useTagsStore()

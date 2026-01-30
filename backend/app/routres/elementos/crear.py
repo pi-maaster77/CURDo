@@ -17,4 +17,9 @@ async def crear_elementos(elemento: ElementoCreateRequest):
         nuevo_elemento = Elemento(nombre=elemento.nombre, checked=False)
         session.add(nuevo_elemento)
         session.commit()
-        return {"message": "Elemento creado", "nombre": nuevo_elemento.nombre, "id": nuevo_elemento.id}
+        return {
+            "message": "Elemento creado", 
+            "nombre": nuevo_elemento.nombre, 
+            "id": nuevo_elemento.id, 
+            "checked": nuevo_elemento.checked
+        }
