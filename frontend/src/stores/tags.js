@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { fetchTags, createTag, updateTag, deleteTag } from '@/api/tags'
-
+import { useNotificacionesStore } from './notificaciones'
 export const useTagsStore = defineStore('tags', {
   state: () => ({
     tags: [],
@@ -15,13 +15,19 @@ export const useTagsStore = defineStore('tags', {
   actions: {
     async optimistic(mutator, request) {
       const backup = [...this.tags]
-
+      const notify = useNotificacionesStore()
       try {
         mutator()
         await request()
       } catch (e) {
         this.tags = backup
         console.error(e)
+        const msg =
+          e?.response?.data?.message || // axios backend
+          e?.message ||                 // Error estándar
+          'Ocurrió un error inesperado'
+
+        notify.error(msg)
       }
     },
 
@@ -53,11 +59,9 @@ export const useTagsStore = defineStore('tags', {
         },
         async () => {
           const real = await createTag({ nombre, color_id })
-          console.log('Respuesta del servidor:', real)
           const idx = this.tags.findIndex(t => t.id === cid)
           if (idx !== -1) {
             this.tags[idx] = real
-            console.log('Tag actualizado con ID real:', real.id)
           }
         }
       )
@@ -85,7 +89,6 @@ export const useTagsStore = defineStore('tags', {
         async () => {
           const real = await updateTag({ id, nombre, color_id })
           const i = this.tags.findIndex(t => t.id === id)
-          console.log(real)
           if (i !== -1) this.tags[i] = real
         }
       )

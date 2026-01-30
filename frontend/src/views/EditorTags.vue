@@ -48,7 +48,6 @@ const coloreandoId= ref(null)
 
 function crear({nombre, color}) {
     tagsStore.crear({nombre: nombre, color_id: color})
-    console.log()
 }
 
 function editando(id){
@@ -58,7 +57,6 @@ function editando(id){
 function guardarEdicion(tag){
     if(tag === null) return
     tagsStore.editar(tag)
-    console.log(tag)
     editandoId.value = null
 }
 

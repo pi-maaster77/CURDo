@@ -35,8 +35,6 @@ const emit = defineEmits(['change', 'colorear', 'cerrar'])
 const coloresStore = useColorsStore()
 const tagsStore = useTagsStore()
 
-console.log("colores:", coloresStore.colores)
-
 
 function seleccionar(color) {
   tagsStore.editar({id: props.tag.id, color_id:color.colorId})

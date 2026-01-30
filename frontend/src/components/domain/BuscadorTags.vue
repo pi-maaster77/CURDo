@@ -4,7 +4,7 @@
         <CheckBoxGeneral v-model="checkedOnly" id="filterChecked" />
       </td>
       <td>
-        <select v-model="tagMode">
+        <select v-model="tagMode" class="form-select">
           <option value="any">Cualquiera</option>
           <option value="all">Todos</option>
         </select>

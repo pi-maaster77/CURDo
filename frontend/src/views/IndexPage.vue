@@ -82,8 +82,6 @@ function asociarTags({ elementoId, tags }) {
  * asegúrate de que tu elementosStore.cargar() maneje { tags: [] }
  */
 async function aplicarFiltros(filtros) {
-  console.log("Aplicando filtros:", filtros)
-  // Llamamos a la API a través del store pasándole los parámetros
   await elementosStore.cargar(filtros)
 }
 

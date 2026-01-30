@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useNotificacionesStore } from './notificaciones'
 import { createColor, fetchColors, updateColor, deleteColor } from '@/api/color'
 
 export const useColorsStore = defineStore('colores', {
@@ -15,6 +16,7 @@ export const useColorsStore = defineStore('colores', {
   actions: {
     async optimistic(mutator, request) {
       const backup = [...this.colores]
+      const notify = useNotificacionesStore()
 
       try {
         mutator()
@@ -22,8 +24,15 @@ export const useColorsStore = defineStore('colores', {
       } catch (e) {
         this.colores = backup
         console.error(e)
+        const msg =
+          e?.response?.data?.message || // axios backend
+          e?.message ||                 // Error estándar
+          'Ocurrió un error inesperado'
+
+        notify.error(msg)
       }
     },
+
 
     async cargar() {
       this.cargando = true

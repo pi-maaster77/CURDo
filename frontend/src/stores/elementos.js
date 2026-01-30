@@ -2,6 +2,7 @@
 import { defineStore } from 'pinia'
 import { fetchElementos, createElemento, updateElemento, deleteElemento } from '@/api/elementos'
 import { asociarTagAElemento, desasociarTagDeElemento } from '@/api/elementoTags'
+import { useNotificacionesStore } from './notificaciones'
 export const useElementosStore = defineStore('elementos', {
   state: () => ({
     elementos: [],
@@ -15,6 +16,7 @@ export const useElementosStore = defineStore('elementos', {
   actions: {
     async optimistic(fn, request) {
       const backup = [...this.elementos]
+      const notify = useNotificacionesStore()
 
       try {
         fn()
@@ -22,6 +24,12 @@ export const useElementosStore = defineStore('elementos', {
       } catch (e) {
         this.elementos = backup
         console.error(e)
+        const msg =
+          e?.response?.data?.message || // axios backend
+          e?.message ||                 // Error estándar
+          'Ocurrió un error inesperado'
+
+        notify.error(msg)
       }
     },
 
@@ -57,7 +65,6 @@ export const useElementosStore = defineStore('elementos', {
           this.elementos.push(temp)
         },
         async () => {
-          console.log(nombre)
           const real = await createElemento({nombre})
           const idx = this.elementos.findIndex(e => e.id === temp.id)
           if (idx !== -1) this.elementos[idx] = real

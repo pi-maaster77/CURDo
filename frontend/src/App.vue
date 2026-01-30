@@ -33,12 +33,14 @@
       </div>
     </div>
   </div>
+  <GlobalError />
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import IndexPage from './views/IndexPage.vue';
 import EditorTags from './views/EditorTags.vue';
+import GlobalError from './components/domain/GlobalError.vue';
 import 'bootstrap-icons/font/bootstrap-icons.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'

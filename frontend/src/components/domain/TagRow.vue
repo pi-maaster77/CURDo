@@ -47,9 +47,6 @@ const props = defineProps({
   coloreandoId: Number
 })
 
-
-console.log("tag: ", props.tag)
-
 const emit = defineEmits(['editando', 'guardar', 'eliminar', 'etiquetando', 'toggle-checked', 'coloreando', 'colorear'])
 
 const nombre = ref(props.tag?.nombre || '')
@@ -79,12 +76,10 @@ function guardarEdicion() {
 
 function eliminar() {
   emit('eliminar', props.tag.id)
-  console.log(props.tag.id)
 }
 
 function colorear(){
   emit('coloreando', props.tag.id)
-  console.log('coloreando', props.tag.id)
 }
 
 function cerrar(){

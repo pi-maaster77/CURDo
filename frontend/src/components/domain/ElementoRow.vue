@@ -57,8 +57,6 @@ const props = defineProps({
   }
 })
 
-console.log(props.editandoId===props.elemento.id)
-
 const emit = defineEmits(['editando', 'guardar', 'eliminar', 'etiquetando', 'toggle-checked'])
 const tagsStore = useTagsStore()
 
@@ -93,7 +91,6 @@ function emitirEtiquetado(ids) {
 
 function eliminar() {
   emit('eliminar', props.elemento.id)
-  console.log(props.elemento.id)
 }
 
 function onToggle(valor) {
