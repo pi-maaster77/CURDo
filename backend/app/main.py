@@ -1,0 +1,38 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from os import environ
+from app.routres.elementos.router import router as elementos_router
+from app.routres.tags.router import router as tags_router
+from app.routres.asociar.router import router as asociar_router
+from app.routres.color.router import router as color_router
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware # Opcional
+
+try:
+    import dotenv
+    dotenv.load_dotenv()
+except ModuleNotFoundError:
+    pass
+
+
+app = FastAPI(
+    title="CURDo API",
+    version="0.2.0",
+)
+
+origins = [
+    environ.get("CLIENT_URL")
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(elementos_router, prefix="/api/elementos")
+app.include_router(tags_router, prefix="/api/tags")  # Added router for tags
+app.include_router(color_router, prefix="/api/colores")
+app.include_router(asociar_router, prefix="/api/asociar")  # Added router for asociar
