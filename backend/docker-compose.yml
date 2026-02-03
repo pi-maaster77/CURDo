@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=development
+      - DATABASE_URL=sqlite:///prueba.db
+    command: python main.py

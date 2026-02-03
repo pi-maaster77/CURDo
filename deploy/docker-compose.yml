@@ -8,13 +8,14 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro,z
-      - ./nginx/certs:/etc/nginx/certs:ro,z
+      - /etc/docker/nginx/conf.d:/etc/nginx/conf.d:ro,z
+      - /var/lib/docker/nginx/certs:/etc/nginx/certs:ro,z
     depends_on:
       - curdo
       - pgadmin
     networks:
       - curdo_net
+      - dns_net
 
   curdo:
     build:
@@ -22,7 +23,7 @@ services:
     container_name: curdo
     environment:
       DATABASE_URL: postgresql://curdo:curdo@postgres:5432/curdo
-      CLIENT_URL: https://curdo.local
+      CLIENT_URL: https://curdo.xyz
     depends_on:
       - postgres
     networks:
@@ -46,6 +47,30 @@ services:
       - postgres_data:/var/lib/postgresql/18/main
     networks:
       - curdo_net
+    
+  
+  pihole:
+    container_name: pihole
+    image: pihole/pihole
+    networks:
+      - dns_net
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    restart: unless-stopped
+    environment:
+      # Set the appropriate timezone for your location from
+      # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones, e.g:
+      TZ: 'America/BuenosAires'
+      # Set a password to access the web interface. Not setting one will result in a random password being assigned
+      FTLCONF_webserver_api_password: 'sdundv2009'
+      FTLCONF_dns_listeningMode: "all"
+    volumes:
+      - /etc/docker/pihole:/etc/pihole,z
+      - /etc/docker/dnsmasq.d:/etc/dnsmasq.d,z
+    dns:
+      - 8.8.8.8
+
 
   pgadmin:
     image: dpage/pgadmin4
@@ -63,4 +88,6 @@ volumes:
 
 networks:
   curdo_net:
+    driver: bridge
+  dns_net:
     driver: bridge

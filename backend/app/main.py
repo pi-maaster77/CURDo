@@ -21,8 +21,7 @@ app = FastAPI(
 )
 
 origins = [
-"http://localhost:8080"
-
+    environ.get("CLIENT_URL")
 ]
 
 app.add_middleware(

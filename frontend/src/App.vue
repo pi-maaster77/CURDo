@@ -34,6 +34,7 @@
     </div>
   </div>
   <GlobalError />
+  <button @click="descargarCA" class="btn btn-success">Descargar CA <i class="bi bi-bandaid"></i></button>
 </template>
 
 <script setup>
@@ -45,6 +46,10 @@ import 'bootstrap-icons/font/bootstrap-icons.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 const tabActiva = ref('elementos')
+
+const descargarCA = () => {
+  window.location.href = '/ca.pem'
+}
 </script>
 
 <style scoped>
